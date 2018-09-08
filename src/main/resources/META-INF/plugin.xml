@@ -1,0 +1,47 @@
+<idea-plugin>
+    <id>org.jetbrains</id>
+    <name>Use statement prettify plugin</name>
+    <version>0.0.1</version>
+    <vendor email="godzie@yandex.ru">Derevtsov Konstantin</vendor>
+
+    <depends>com.jetbrains.php</depends>
+    <depends>com.intellij.modules.platform</depends>
+
+    <description><![CDATA[
+      Plugin for prettify use statements.<br>
+    ]]></description>
+
+    <change-notes><![CDATA[
+      Release 0.0.1: Initial release.<br>
+    ]]>
+    </change-notes>
+
+    <idea-version since-build="162"/>
+
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceImplementation="php.plugin.pretty.ApplicationSettings"/>
+        <annotator language="PHP" implementationClass="php.plugin.pretty.annotation.PrettyUseAnnotator"/>
+
+        <projectConfigurable instance="php.plugin.pretty.ui.MainForm"
+        displayName="Pretty use"
+        id="PrettyUse.MainForm"
+        groupId="reference.webide.settings.project.settings.php"
+        nonDefaultProject="true"
+        />
+
+        <projectConfigurable instance="php.plugin.pretty.ui.RegexListForm"
+        displayName="Regex list"
+        id="PrettyUse.RegexList"
+        groupId="PrettyUse.MainForm"
+        nonDefaultProject="true"
+        />
+    </extensions>
+
+    <actions>
+        <action id="php.plugin.pretty.PrettifyBtnAction" class="php.plugin.pretty.PrettifyBtnAction" text="Prettify use statements">
+            <add-to-group group-id="EditMenu" anchor="last"/>
+        </action>
+    </actions>
+
+</idea-plugin>
