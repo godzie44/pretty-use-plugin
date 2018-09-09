@@ -39,8 +39,9 @@
     </extensions>
 
     <actions>
-        <action id="php.plugin.pretty.PrettifyBtnAction" class="php.plugin.pretty.PrettifyBtnAction" text="Prettify use statements">
-            <add-to-group group-id="EditMenu" anchor="last"/>
+        <action id="php.plugin.pretty.PrettifyBtnAction" class="php.plugin.pretty.PrettifyBtnAction"
+                text="Prettify use statements">
+            <add-to-group group-id="CodeMenu" anchor="last"/>
         </action>
     </actions>
 
