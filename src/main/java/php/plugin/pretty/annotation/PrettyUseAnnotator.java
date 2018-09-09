@@ -53,12 +53,12 @@ public class PrettyUseAnnotator implements Annotator {
         TextRange range = new TextRange(useStatementList.get(0).getTextRange().getStartOffset(),
                 useStatementList.get(useStatementList.size()-1).getTextRange().getEndOffset());
 
-        Annotation annotation = holder.createWarningAnnotation(range, "Use statement not pretty! :(");
+        Annotation annotation = holder.createWeakWarningAnnotation(range, "Use statement not pretty! :(");
 
         annotation.registerFix(new QuickFixToPretty());
     }
 
-    private int findWeight(String text)
+    private int findWeight(@NotNull String text)
     {
         Collection<RegexOption> options = ApplicationSettings.getEnabledRegexOptions();
 

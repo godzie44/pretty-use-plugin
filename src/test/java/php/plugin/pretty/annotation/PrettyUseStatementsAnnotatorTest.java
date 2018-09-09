@@ -26,17 +26,17 @@ public class PrettyUseStatementsAnnotatorTest extends LightCodeInsightFixtureTes
     public void testHighlightingForNotPrettyStatement() {
         myFixture.configureByFile("NotPrettyClass.php");
 
-        myFixture.checkHighlighting(true, false, false);
+        myFixture.checkHighlighting(false, false, true);
     }
 
     public void testNoHighlightingForPrettyStatement() {
         myFixture.configureByFile("PrettyClassWithoutWhiteSpaces.php");
-        myFixture.checkHighlighting(true, true, true, true);
+        myFixture.checkHighlighting(false, false, true);
     }
 
     public void testNoHighlightingForPrettyStatementWithWhitespaces() {
         myFixture.configureByFile("PrettyClassWithWhitespaces.php");
-        myFixture.checkHighlighting(true, true, true, true);
+        myFixture.checkHighlighting(false, false, true);
     }
 
     public void testHighlightingForNotPrettyStatementWithAnotherLibsSetting() {
@@ -44,7 +44,7 @@ public class PrettyUseStatementsAnnotatorTest extends LightCodeInsightFixtureTes
 
         ApplicationSettings.getInstance().regexOptions.add(new RegexOption("another_libs", 95, true));
 
-        myFixture.checkHighlighting(true, false, false);
+        myFixture.checkHighlighting(false, false, true);
     }
 
 }
