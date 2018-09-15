@@ -42,6 +42,7 @@
         <action id="php.plugin.pretty.PrettifyBtnAction" class="php.plugin.pretty.PrettifyBtnAction"
                 text="Prettify use statements">
             <add-to-group group-id="CodeMenu" anchor="last"/>
+            <keyboard-shortcut first-keystroke="control alt u" keymap="$default"/>
         </action>
     </actions>
 
