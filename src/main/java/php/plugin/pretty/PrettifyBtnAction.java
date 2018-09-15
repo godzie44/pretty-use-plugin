@@ -8,7 +8,7 @@ import com.intellij.openapi.command.CommandProcessor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.jetbrains.php.lang.psi.PhpFile;
-import php.plugin.pretty.action.SortAction;
+import php.plugin.pretty.action.OrderAction;
 
 public class PrettifyBtnAction extends AnAction {
     public PrettifyBtnAction() {
@@ -25,6 +25,6 @@ public class PrettifyBtnAction extends AnAction {
         }
 
         CommandProcessor.getInstance().executeCommand(project,
-                () -> ApplicationManager.getApplication().runWriteAction(new SortAction((PhpFile)psi)), "RefactorToPretty", null);
+                () -> ApplicationManager.getApplication().runWriteAction(new OrderAction((PhpFile)psi)), "RefactorToPretty", null);
     }
 }

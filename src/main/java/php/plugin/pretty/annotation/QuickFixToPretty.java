@@ -9,8 +9,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.util.IncorrectOperationException;
 import com.jetbrains.php.lang.psi.PhpFile;
 import org.jetbrains.annotations.NotNull;
-import php.plugin.pretty.ApplicationSettings;
-import php.plugin.pretty.action.SortAction;
+import php.plugin.pretty.action.OrderAction;
 
 public class QuickFixToPretty extends BaseIntentionAction {
 
@@ -36,6 +35,6 @@ public class QuickFixToPretty extends BaseIntentionAction {
     @Override
     public void invoke(@NotNull Project project, Editor editor, PsiFile file) throws IncorrectOperationException {
         CommandProcessor.getInstance().executeCommand(project,
-                () -> ApplicationManager.getApplication().runWriteAction(new SortAction((PhpFile) file)), "RefactorToPretty", null);
+                () -> ApplicationManager.getApplication().runWriteAction(new OrderAction((PhpFile) file)), "RefactorToPretty", null);
     }
 }

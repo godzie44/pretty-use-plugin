@@ -7,7 +7,7 @@ import com.intellij.openapi.components.Storage;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import php.plugin.pretty.dict.RegexOption;
+import php.plugin.pretty.dict.UseStatementGroupOptions;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,9 +18,11 @@ import java.util.stream.Collectors;
 @State(name = "PhpPrettyUsePlugin", storages = @Storage(file = "$APP_CONFIG$/php-pretty-use.xml"))
 public class ApplicationSettings implements PersistentStateComponent<ApplicationSettings> {
 
-    public List<RegexOption> regexOptions = new ArrayList<>();
+    public List<UseStatementGroupOptions> useStatementGroupOptions = new ArrayList<>();
 
     public boolean insertEmptyLineAfterCheckBox = true;
+    public boolean useAdvancedAnnotator = false;
+
 
     @Nullable
     @Override
@@ -42,32 +44,32 @@ public class ApplicationSettings implements PersistentStateComponent<Application
         return ServiceManager.getService(ApplicationSettings.class);
     }
 
-    public static Collection<RegexOption> getDefaultRegexOption() {
-        Collection<RegexOption> options = new ArrayList<>();
+    public static Collection<UseStatementGroupOptions> getDefaultUseStatementGroupOption() {
+        Collection<UseStatementGroupOptions> options = new ArrayList<>();
 
-        options.add(new RegexOption("^use .?Symfony\\\\.*$", 100, true));
-        options.add(new RegexOption("^use .?Shared\\\\.*$", 90, true));
+        options.add(new UseStatementGroupOptions("^use .?Symfony\\\\.*$", 100, true));
+        options.add(new UseStatementGroupOptions("^use .?Shared\\\\.*$", 90, true));
 
         return options;
     }
 
     @NotNull
-    public static Collection<RegexOption> getUseRegexOptionsWithDefaultFallback() {
-        if (getInstance().provideDefaults && getInstance().regexOptions.size() == 0) {
-            return getDefaultRegexOption();
+    public static Collection<UseStatementGroupOptions> getStatementGroupOptionsWithDefaultFallback() {
+        if (getInstance().provideDefaults && getInstance().useStatementGroupOptions.size() == 0) {
+            return getDefaultUseStatementGroupOption();
         }
 
-        return getInstance().regexOptions;
+        return getInstance().useStatementGroupOptions;
     }
 
     @NotNull
-    public static Collection<RegexOption> getEnabledRegexOptions() {
-        Collection<RegexOption> options = ApplicationSettings.getUseRegexOptionsWithDefaultFallback();
+    public static Collection<UseStatementGroupOptions> getEnabledStatementGroupOptionsList() {
+        Collection<UseStatementGroupOptions> options = ApplicationSettings.getStatementGroupOptionsWithDefaultFallback();
 
-        return options.stream().filter(RegexOption::isEnabled).collect(Collectors.toList());
+        return options.stream().filter(UseStatementGroupOptions::isEnabled).collect(Collectors.toList());
     }
 
-    public static PriorityQueue<RegexOption> createRegexOptionQueue() {
-        return new PriorityQueue<>(getEnabledRegexOptions());
+    public static PriorityQueue<UseStatementGroupOptions> createStatementGroupOptionsQueue() {
+        return new PriorityQueue<>(getEnabledStatementGroupOptionsList());
     }
 }

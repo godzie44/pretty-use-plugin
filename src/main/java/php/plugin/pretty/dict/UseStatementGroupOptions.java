@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.regex.Pattern;
 
-public class RegexOption implements Comparable<RegexOption> {
+public class UseStatementGroupOptions implements Comparable<UseStatementGroupOptions> {
     private static final String ANOTHER_LIBS_PLACEHOLDER = "another_libs";
 
     @NotNull
@@ -15,10 +15,10 @@ public class RegexOption implements Comparable<RegexOption> {
 
     private Pattern pattern;
 
-    public RegexOption(){
+    public UseStatementGroupOptions(){
     }
 
-    public RegexOption(@NotNull String regex, int weight, boolean enabled)
+    public UseStatementGroupOptions(@NotNull String regex, int weight, boolean enabled)
     {
         this.setRegex(regex);
         this.setWeight(weight);
@@ -59,15 +59,8 @@ public class RegexOption implements Comparable<RegexOption> {
     }
 
     @Override
-    public int compareTo(@NotNull RegexOption o) {
-        if (this.getWeight() < o.getWeight()) {
-            return 1;
-        }
-        if (this.getWeight() > o.getWeight()) {
-            return -1;
-        }
-
-        return 0;
+    public int compareTo(@NotNull UseStatementGroupOptions options) {
+        return Integer.compare(options.getWeight(), this.getWeight());
     }
 
     public boolean forAnotherLibs() {

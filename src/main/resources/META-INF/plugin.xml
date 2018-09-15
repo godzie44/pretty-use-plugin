@@ -30,8 +30,8 @@
         nonDefaultProject="true"
         />
 
-        <projectConfigurable instance="php.plugin.pretty.ui.RegexListForm"
-        displayName="Regex list"
+        <projectConfigurable instance="php.plugin.pretty.ui.UseStatementGroupOptionsListForm"
+        displayName="Use block options list"
         id="PrettyUse.RegexList"
         groupId="PrettyUse.MainForm"
         nonDefaultProject="true"

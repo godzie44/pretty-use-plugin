@@ -2,24 +2,25 @@ package php.plugin.pretty.action;
 
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiParserFacade;
-import com.intellij.psi.PsiRecursiveElementWalkingVisitor;
 import com.intellij.psi.PsiWhiteSpace;
 import com.jetbrains.php.lang.psi.PhpFile;
 import com.jetbrains.php.lang.psi.elements.PhpUseList;
 import org.jetbrains.annotations.NotNull;
 import php.plugin.pretty.ApplicationSettings;
-import php.plugin.pretty.dict.RegexOption;
+import php.plugin.pretty.dict.UseStatementGroupOptions;
 import php.plugin.pretty.dict.WeighedUseStatementGroup;
 import php.plugin.pretty.tool.UseStatementVisitor;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class SortAction implements Runnable {
+public class OrderAction implements Runnable {
 
     @NotNull
     private PhpFile phpFile;
 
-    public SortAction(@NotNull PhpFile psiFile) {
+    public OrderAction(@NotNull PhpFile psiFile) {
         this.phpFile = psiFile;
     }
 
@@ -39,23 +40,17 @@ public class SortAction implements Runnable {
                 this.createUseStatementGroupSortedQueue(useStatementList);
 
         this.replaceStatements(useStatementList, useStatementGroupQueue);
-
     }
 
     private PriorityQueue<WeighedUseStatementGroup> createUseStatementGroupSortedQueue(final List<PhpUseList> useStatementList) {
-        UseStatementGroupSimpleContainer groups = new UseStatementGroupSimpleContainer();
+        PriorityQueue<UseStatementGroupOptions> orderedUseStatementGroupOptionsQueue = ApplicationSettings.createStatementGroupOptionsQueue();
 
-        PriorityQueue<RegexOption> sortedRegexOptionQueue = ApplicationSettings.createRegexOptionQueue();
+        UseStatementGroupSimpleContainer groups = Stream.generate(orderedUseStatementGroupOptionsQueue::poll)
+                .filter(Objects::nonNull).map(WeighedUseStatementGroup::new).limit(orderedUseStatementGroupOptionsQueue.size())
+                .collect(Collectors.toCollection(UseStatementGroupSimpleContainer::new));
 
-        while (sortedRegexOptionQueue.peek() != null) {
-            groups.add(new WeighedUseStatementGroup(sortedRegexOptionQueue.poll()));
-        }
-
-        List<PhpUseList> copiedUseStatementList = new ArrayList<>();
-
-        for (PhpUseList phpUseList : useStatementList) {
-            copiedUseStatementList.add((PhpUseList) phpUseList.copy());
-        }
+        List<PhpUseList> copiedUseStatementList = useStatementList.stream()
+                .map(phpUseList -> (PhpUseList) phpUseList.copy()).collect(Collectors.toList());
 
         for (WeighedUseStatementGroup useStatementGroup : groups) {
             for (Iterator<PhpUseList> iterator = copiedUseStatementList.iterator(); iterator.hasNext(); ) {
@@ -102,8 +97,7 @@ public class SortAction implements Runnable {
             return null;
         }
 
-        WeighedUseStatementGroup appendUseStatementGroupForAllStatements()
-        {
+        WeighedUseStatementGroup appendUseStatementGroupForAllStatements() {
             WeighedUseStatementGroup groupForAllStatement = WeighedUseStatementGroup.createForAllStatements(0);
             this.add(groupForAllStatement);
 

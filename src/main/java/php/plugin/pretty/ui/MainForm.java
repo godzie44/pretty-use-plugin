@@ -11,6 +11,7 @@ import javax.swing.*;
 public class MainForm implements Configurable {
     private JCheckBox insertEmptyLineAfterCheckBox;
     private JPanel panel;
+    private JCheckBox useAdvanceHighlighterCheckBox;
 
     @Nls
     @Override
@@ -32,16 +33,20 @@ public class MainForm implements Configurable {
 
     @Override
     public boolean isModified() {
-        return !insertEmptyLineAfterCheckBox.isSelected() == ApplicationSettings.getInstance().insertEmptyLineAfterCheckBox;
+        return insertEmptyLineAfterCheckBox.isSelected() != ApplicationSettings.getInstance().insertEmptyLineAfterCheckBox
+                ||
+                useAdvanceHighlighterCheckBox.isSelected() != ApplicationSettings.getInstance().useAdvancedAnnotator;
     }
 
     @Override
     public void apply() throws ConfigurationException {
         ApplicationSettings.getInstance().insertEmptyLineAfterCheckBox = insertEmptyLineAfterCheckBox.isSelected();
+        ApplicationSettings.getInstance().useAdvancedAnnotator = useAdvanceHighlighterCheckBox.isSelected();
     }
 
     @Override
     public void reset() {
         insertEmptyLineAfterCheckBox.setSelected(ApplicationSettings.getInstance().insertEmptyLineAfterCheckBox);
+        useAdvanceHighlighterCheckBox.setSelected(ApplicationSettings.getInstance().useAdvancedAnnotator);
     }
 }

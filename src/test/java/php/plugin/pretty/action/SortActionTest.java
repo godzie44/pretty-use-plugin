@@ -5,7 +5,7 @@ import com.intellij.openapi.command.CommandProcessor;
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase;
 import com.jetbrains.php.lang.psi.PhpFile;
 import php.plugin.pretty.ApplicationSettings;
-import php.plugin.pretty.dict.RegexOption;
+import php.plugin.pretty.dict.UseStatementGroupOptions;
 
 
 public class SortActionTest extends LightCodeInsightFixtureTestCase {
@@ -16,13 +16,13 @@ public class SortActionTest extends LightCodeInsightFixtureTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        ApplicationSettings.getInstance().regexOptions.add(new RegexOption("^use .?Symfony\\\\.*$", 100, true));
-        ApplicationSettings.getInstance().regexOptions.add(new RegexOption("^use .?Shared\\\\.*$", 90, true));
+        ApplicationSettings.getInstance().useStatementGroupOptions.add(new UseStatementGroupOptions("^use .?Symfony\\\\.*$", 100, true));
+        ApplicationSettings.getInstance().useStatementGroupOptions.add(new UseStatementGroupOptions("^use .?Shared\\\\.*$", 90, true));
     }
 
     @Override
     protected void tearDown() throws Exception {
-        ApplicationSettings.getInstance().regexOptions.clear();
+        ApplicationSettings.getInstance().useStatementGroupOptions.clear();
         super.tearDown();
     }
 
@@ -30,7 +30,7 @@ public class SortActionTest extends LightCodeInsightFixtureTestCase {
         myFixture.configureByFile("NotPrettyClass.php");
 
         CommandProcessor.getInstance().executeCommand(getProject(),
-                () -> ApplicationManager.getApplication().runWriteAction(new SortAction((PhpFile) myFixture.getFile())), "TestRefactorToPretty", null);
+                () -> ApplicationManager.getApplication().runWriteAction(new OrderAction((PhpFile) myFixture.getFile())), "TestRefactorToPretty", null);
 
         myFixture.checkResultByFile("NotPrettyClassAfterApply.php");
     }
@@ -39,7 +39,7 @@ public class SortActionTest extends LightCodeInsightFixtureTestCase {
         myFixture.configureByFile("NotPrettyClassWithWhiteSpaces.php");
 
         CommandProcessor.getInstance().executeCommand(getProject(),
-                () -> ApplicationManager.getApplication().runWriteAction(new SortAction((PhpFile) myFixture.getFile())), "TestRefactorToPretty", null);
+                () -> ApplicationManager.getApplication().runWriteAction(new OrderAction((PhpFile) myFixture.getFile())), "TestRefactorToPretty", null);
 
         myFixture.checkResultByFile("NotPrettyClassAfterApply.php");
     }
@@ -48,7 +48,7 @@ public class SortActionTest extends LightCodeInsightFixtureTestCase {
         myFixture.configureByFile("PrettyClassWithoutWhiteSpaces.php");
 
         CommandProcessor.getInstance().executeCommand(getProject(),
-                () -> ApplicationManager.getApplication().runWriteAction(new SortAction((PhpFile) myFixture.getFile())), "TestRefactorToPretty", null);
+                () -> ApplicationManager.getApplication().runWriteAction(new OrderAction((PhpFile) myFixture.getFile())), "TestRefactorToPretty", null);
 
         myFixture.checkResultByFile("PrettyClassWithoutWhiteSpacesAfterApply.php");
 
@@ -58,7 +58,7 @@ public class SortActionTest extends LightCodeInsightFixtureTestCase {
         myFixture.configureByFile("NotPrettyClassAfterApply.php");
 
         CommandProcessor.getInstance().executeCommand(getProject(),
-                () -> ApplicationManager.getApplication().runWriteAction(new SortAction((PhpFile) myFixture.getFile())), "TestRefactorToPretty", null);
+                () -> ApplicationManager.getApplication().runWriteAction(new OrderAction((PhpFile) myFixture.getFile())), "TestRefactorToPretty", null);
 
         myFixture.checkResultByFile("NotPrettyClassAfterApply.php");
     }
@@ -68,7 +68,7 @@ public class SortActionTest extends LightCodeInsightFixtureTestCase {
         myFixture.configureByFile("PrettyClassWithoutAlphabetSort.php");
 
         CommandProcessor.getInstance().executeCommand(getProject(),
-                () -> ApplicationManager.getApplication().runWriteAction(new SortAction((PhpFile) myFixture.getFile())), "TestRefactorToPretty", null);
+                () -> ApplicationManager.getApplication().runWriteAction(new OrderAction((PhpFile) myFixture.getFile())), "TestRefactorToPretty", null);
 
         myFixture.checkResultByFile("PrettyClassWithoutAlphabetSortAfterApply.php");
 
@@ -78,10 +78,10 @@ public class SortActionTest extends LightCodeInsightFixtureTestCase {
     {
         myFixture.configureByFile("NotPrettyClassWithAnotherLibs.php");
 
-        ApplicationSettings.getInstance().regexOptions.add(new RegexOption("another_libs", 95, true));
+        ApplicationSettings.getInstance().useStatementGroupOptions.add(new UseStatementGroupOptions("another_libs", 95, true));
 
         CommandProcessor.getInstance().executeCommand(getProject(),
-                () -> ApplicationManager.getApplication().runWriteAction(new SortAction((PhpFile) myFixture.getFile())), "TestRefactorToPretty", null);
+                () -> ApplicationManager.getApplication().runWriteAction(new OrderAction((PhpFile) myFixture.getFile())), "TestRefactorToPretty", null);
 
         myFixture.checkResultByFile("NotPrettyClassWithAnotherLibsAfterApply.php");
 

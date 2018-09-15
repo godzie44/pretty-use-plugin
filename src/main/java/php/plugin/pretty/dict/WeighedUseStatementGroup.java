@@ -1,6 +1,5 @@
 package php.plugin.pretty.dict;
 
-import a.j.P;
 import com.jetbrains.php.lang.psi.elements.PhpUseList;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,17 +17,17 @@ public class WeighedUseStatementGroup implements Comparable<WeighedUseStatementG
     private boolean forAnotherLibs = false;
 
     public static WeighedUseStatementGroup createForAllStatements(int weight) {
-        return new WeighedUseStatementGroup(new RegexOption(
+        return new WeighedUseStatementGroup(new UseStatementGroupOptions(
                 ".*?",
                 weight,
                 true
         ));
     }
 
-    public WeighedUseStatementGroup(RegexOption regexOption) {
-        this(regexOption.getPattern(), regexOption.getWeight());
+    public WeighedUseStatementGroup(UseStatementGroupOptions useStatementGroupOptions) {
+        this(useStatementGroupOptions.getPattern(), useStatementGroupOptions.getWeight());
 
-        if (regexOption.forAnotherLibs()) {
+        if (useStatementGroupOptions.forAnotherLibs()) {
             forAnotherLibs = true;
         }
     }
@@ -65,7 +64,7 @@ public class WeighedUseStatementGroup implements Comparable<WeighedUseStatementG
         return matcher.find();
     }
 
-    public void insert(PhpUseList phpUseList) {
+    private void insert(PhpUseList phpUseList) {
         this.useStatements.add(phpUseList);
     }
 
@@ -94,14 +93,6 @@ public class WeighedUseStatementGroup implements Comparable<WeighedUseStatementG
 
     @Override
     public int compareTo(@NotNull WeighedUseStatementGroup o) {
-        if (this.weight < o.weight) {
-            return 1;
-        }
-        if (this.weight > o.weight) {
-            return -1;
-        }
-
-        return 0;
-
+        return Integer.compare(o.weight, this.weight);
     }
 }

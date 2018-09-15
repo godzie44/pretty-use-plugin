@@ -1,7 +1,7 @@
 package php.plugin.pretty.ui;
 
 import org.jetbrains.annotations.NotNull;
-import php.plugin.pretty.dict.RegexOption;
+import php.plugin.pretty.dict.UseStatementGroupOptions;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,9 +10,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 
-public class RegexForm extends JDialog {
+public class UseStatementGroupOptionsForm extends JDialog {
 
-    private final RegexOption regexOption;
+    private final UseStatementGroupOptions useStatementGroupOptions;
     private JPanel contentPanel;
     private JTextField regExpField;
     private JSpinner regExpPriority;
@@ -23,18 +23,18 @@ public class RegexForm extends JDialog {
     @NotNull
     private final Callback callback;
 
-    public RegexForm(@NotNull RegexOption regexOption, @NotNull Callback callback)
+    public UseStatementGroupOptionsForm(@NotNull UseStatementGroupOptions useStatementGroupOptions, @NotNull Callback callback)
     {
-        this.regexOption = regexOption;
+        this.useStatementGroupOptions = useStatementGroupOptions;
         this.callback = callback;
 
         setContentPane(contentPanel);
         setModal(true);
         getRootPane().setDefaultButton(OKButton);
 
-        regExpField.setText(regexOption.getRegex());
-        regExpPriority.setValue(regexOption.getWeight());
-        enableCheckBox.setSelected(regexOption.isEnabled());
+        regExpField.setText(useStatementGroupOptions.getRegex());
+        regExpPriority.setValue(useStatementGroupOptions.getWeight());
+        enableCheckBox.setSelected(useStatementGroupOptions.isEnabled());
 
         OKButton.addActionListener(e -> onOK());
 
@@ -65,11 +65,11 @@ public class RegexForm extends JDialog {
 //            return;
 //        }
 //
-        this.regexOption.setRegex(regExpField.getText());
-        this.regexOption.setWeight((Integer) regExpPriority.getValue());
-        this.regexOption.setEnabled(enableCheckBox.isSelected());
+        this.useStatementGroupOptions.setRegex(regExpField.getText());
+        this.useStatementGroupOptions.setWeight((Integer) regExpPriority.getValue());
+        this.useStatementGroupOptions.setEnabled(enableCheckBox.isSelected());
 
-        this.callback.ok(this.regexOption);
+        this.callback.ok(this.useStatementGroupOptions);
         dispose();
     }
 
@@ -78,11 +78,11 @@ public class RegexForm extends JDialog {
     }
 
     public static void create(@NotNull Component component, @NotNull Callback callback) {
-        create(component, new RegexOption("", 0, true), callback);
+        create(component, new UseStatementGroupOptions("", 0, true), callback);
     }
 
-    public static void create(@NotNull Component component, @NotNull RegexOption option, @NotNull Callback callback) {
-        RegexForm dialog = new RegexForm(option, callback);
+    public static void create(@NotNull Component component, @NotNull UseStatementGroupOptions option, @NotNull Callback callback) {
+        UseStatementGroupOptionsForm dialog = new UseStatementGroupOptionsForm(option, callback);
         dialog.setMinimumSize(new Dimension(400, 0));
         dialog.pack();
         dialog.setTitle("New reg exp");
@@ -92,6 +92,6 @@ public class RegexForm extends JDialog {
 
 
     public interface Callback {
-        void ok(@NotNull RegexOption option);
+        void ok(@NotNull UseStatementGroupOptions option);
     }
 }

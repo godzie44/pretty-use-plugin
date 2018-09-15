@@ -10,13 +10,13 @@ import com.intellij.util.ui.ListTableModel;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 import php.plugin.pretty.ApplicationSettings;
-import php.plugin.pretty.dict.RegexOption;
+import php.plugin.pretty.dict.UseStatementGroupOptions;
 
 import javax.swing.*;
 import java.util.ArrayList;
 
 
-public class RegexListForm implements Configurable {
+public class UseStatementGroupOptionsListForm implements Configurable {
     private JButton resetButton;
 
 
@@ -25,20 +25,20 @@ public class RegexListForm implements Configurable {
 
 
 
-    private ListTableModel<RegexOption> modelList;
-    private TableView<RegexOption> tableView;
+    private ListTableModel<UseStatementGroupOptions> modelList;
+    private TableView<UseStatementGroupOptions> tableView;
     private boolean changed = false;
 
     private JPanel panel;
     private JPanel innerPanel;
 
-    public RegexListForm() {
+    public UseStatementGroupOptionsListForm() {
         this.tableView = new TableView<>();
 
         this.modelList = new ListTableModel<>(
                 new ExpressionColumn(),
                 new PriorityColumn(),
-                new DisableColumn()
+                new EnableColumn()
         );
 
         this.tableView.setModelAndUpdateColumns(this.modelList);
@@ -63,11 +63,11 @@ public class RegexListForm implements Configurable {
             this.modelList.removeRow(0);
         }
 
-        this.modelList.addRows(ApplicationSettings.getDefaultRegexOption());
+        this.modelList.addRows(ApplicationSettings.getDefaultUseStatementGroupOption());
     }
 
     private void initList() {
-        this.modelList.addRows(ApplicationSettings.getUseRegexOptionsWithDefaultFallback());
+        this.modelList.addRows(ApplicationSettings.getStatementGroupOptionsWithDefaultFallback());
     }
 
     @Nls
@@ -85,9 +85,9 @@ public class RegexListForm implements Configurable {
     @Nullable
     @Override
     public JComponent createComponent() {
-        ToolbarDecorator tablePanel = ToolbarDecorator.createDecorator(this.tableView, new ElementProducer<RegexOption>() {
+        ToolbarDecorator tablePanel = ToolbarDecorator.createDecorator(this.tableView, new ElementProducer<UseStatementGroupOptions>() {
             @Override
-            public RegexOption createElement() {
+            public UseStatementGroupOptions createElement() {
                 return null;
             }
 
@@ -99,18 +99,18 @@ public class RegexListForm implements Configurable {
 
         tablePanel.setEditAction(anActionButton -> {
 
-            RegexOption useAliasOption = tableView.getSelectedObject();
+            UseStatementGroupOptions useAliasOption = tableView.getSelectedObject();
             if(useAliasOption == null) {
                 return;
             }
 
-            RegexForm.create(innerPanel, useAliasOption, option -> {
+            UseStatementGroupOptionsForm.create(innerPanel, useAliasOption, option -> {
                 tableView.getTableViewModel().fireTableDataChanged();
                 changed = true;
             });
         });
 
-        tablePanel.setAddAction(anActionButton -> RegexForm.create(innerPanel, option -> {
+        tablePanel.setAddAction(anActionButton -> UseStatementGroupOptionsForm.create(innerPanel, option -> {
             tableView.getListTableModel().addRow(option);
             changed = true;
         }));
@@ -137,7 +137,7 @@ public class RegexListForm implements Configurable {
 
     @Override
     public void apply() throws ConfigurationException {
-        ApplicationSettings.getInstance().regexOptions = new ArrayList<>(this.tableView.getListTableModel().getItems());
+        ApplicationSettings.getInstance().useStatementGroupOptions = new ArrayList<>(this.tableView.getListTableModel().getItems());
         ApplicationSettings.getInstance().provideDefaults = false;
         this.changed = false;
     }
@@ -156,7 +156,7 @@ public class RegexListForm implements Configurable {
 
     }
 
-    private static class ExpressionColumn extends ColumnInfo<RegexOption, String> {
+    private static class ExpressionColumn extends ColumnInfo<UseStatementGroupOptions, String> {
 
         ExpressionColumn() {
             super("Expression");
@@ -164,12 +164,12 @@ public class RegexListForm implements Configurable {
 
         @Nullable
         @Override
-        public String valueOf(RegexOption option) {
+        public String valueOf(UseStatementGroupOptions option) {
             return option.getRegex();
         }
     }
 
-    private static class PriorityColumn extends ColumnInfo<RegexOption, String> {
+    private static class PriorityColumn extends ColumnInfo<UseStatementGroupOptions, String> {
 
         PriorityColumn() {
             super("Priority");
@@ -177,22 +177,22 @@ public class RegexListForm implements Configurable {
 
         @Nullable
         @Override
-        public String valueOf(RegexOption option) {
+        public String valueOf(UseStatementGroupOptions option) {
             return String.valueOf(option.getWeight());
         }
     }
 
-    private class DisableColumn extends ColumnInfo<RegexOption, Boolean> {
+    private class EnableColumn extends ColumnInfo<UseStatementGroupOptions, Boolean> {
 
-        public DisableColumn() {
-            super("Disable");
+        public EnableColumn() {
+            super("Enable");
         }
 
-        public Boolean valueOf(RegexOption option) {
+        public Boolean valueOf(UseStatementGroupOptions option) {
             return option.isEnabled();
         }
 
-        public void setValue(RegexOption option, Boolean value){
+        public void setValue(UseStatementGroupOptions option, Boolean value){
             option.setEnabled(value);
             tableView.getListTableModel().fireTableDataChanged();
             changed = true;
@@ -202,7 +202,7 @@ public class RegexListForm implements Configurable {
             return 50;
         }
 
-        public boolean isCellEditable(RegexOption groupItem)
+        public boolean isCellEditable(UseStatementGroupOptions groupItem)
         {
             return true;
         }
