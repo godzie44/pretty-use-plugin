@@ -51,7 +51,7 @@ public class UseStatementGroupOptions implements Comparable<UseStatementGroupOpt
     {
         this.regex = regex;
 
-        this.pattern = Pattern.compile(regex);
+        this.pattern = Pattern.compile(regex, Pattern.MULTILINE);
     }
 
     public Pattern getPattern() {

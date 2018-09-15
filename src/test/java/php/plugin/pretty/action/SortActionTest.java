@@ -63,8 +63,7 @@ public class SortActionTest extends LightCodeInsightFixtureTestCase {
         myFixture.checkResultByFile("NotPrettyClassAfterApply.php");
     }
 
-    public void testAlphabeticalSortWorkEvenForPrettyUseList()
-    {
+    public void testAlphabeticalSortWorkEvenForPrettyUseList() {
         myFixture.configureByFile("PrettyClassWithoutAlphabetSort.php");
 
         CommandProcessor.getInstance().executeCommand(getProject(),
@@ -74,8 +73,7 @@ public class SortActionTest extends LightCodeInsightFixtureTestCase {
 
     }
 
-    public void testAnotherLibsFunctional()
-    {
+    public void testAnotherLibsFunctional() {
         myFixture.configureByFile("NotPrettyClassWithAnotherLibs.php");
 
         ApplicationSettings.getInstance().useStatementGroupOptions.add(new UseStatementGroupOptions("another_libs", 95, true));
@@ -84,6 +82,15 @@ public class SortActionTest extends LightCodeInsightFixtureTestCase {
                 () -> ApplicationManager.getApplication().runWriteAction(new OrderAction((PhpFile) myFixture.getFile())), "TestRefactorToPretty", null);
 
         myFixture.checkResultByFile("NotPrettyClassWithAnotherLibsAfterApply.php");
+    }
+
+    public void testSortWorkAsExpectedWithPhpUseGroup() {
+        myFixture.configureByFile("NotPrettyClassWithPhpUseGroup.php");
+
+        CommandProcessor.getInstance().executeCommand(getProject(),
+                () -> ApplicationManager.getApplication().runWriteAction(new OrderAction((PhpFile) myFixture.getFile())), "TestRefactorToPretty", null);
+
+        myFixture.checkResultByFile("NotPrettyClassWithPhpUseGroupAfterApply.php");
 
     }
 }
