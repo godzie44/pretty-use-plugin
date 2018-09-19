@@ -1,5 +1,5 @@
 <idea-plugin>
-    <id>org.jetbrains</id>
+    <id>php.plugin.pretty</id>
     <name>Use statement prettify plugin</name>
     <version>0.1.0</version>
     <vendor email="godzie@yandex.ru">Derevtsov Konstantin</vendor>
