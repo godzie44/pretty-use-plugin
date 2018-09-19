@@ -47,8 +47,9 @@ public class ApplicationSettings implements PersistentStateComponent<Application
     public static Collection<UseStatementGroupOptions> getDefaultUseStatementGroupOption() {
         Collection<UseStatementGroupOptions> options = new ArrayList<>();
 
-        options.add(new UseStatementGroupOptions("^use .?Symfony\\\\.*$", 100, true));
-        options.add(new UseStatementGroupOptions("^use .?Shared\\\\.*$", 90, true));
+        options.add(new UseStatementGroupOptions("^use .?(Symfony|Sensio)\\\\.*$", 100, true));
+        options.add(new UseStatementGroupOptions("^use .?Doctrine\\\\.*$", 90, true));
+        options.add(new UseStatementGroupOptions("^use .?JMS\\\\.*$", 85, true));
 
         return options;
     }

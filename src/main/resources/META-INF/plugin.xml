@@ -1,14 +1,23 @@
 <idea-plugin>
     <id>org.jetbrains</id>
     <name>Use statement prettify plugin</name>
-    <version>0.0.1</version>
+    <version>0.1.0</version>
     <vendor email="godzie@yandex.ru">Derevtsov Konstantin</vendor>
 
     <depends>com.jetbrains.php</depends>
     <depends>com.intellij.modules.platform</depends>
 
     <description><![CDATA[
-      Plugin for prettify use statements.<br>
+<h1>Plugin for prettify use statements.</h1>
+      <br />
+      This simple plugin edit use statement block in php file. Features:
+      <br />
+      <ul>
+      <li>group up use statements by user configuration</li>
+      <li>add delimiter between groups</li>
+      <li>alphabetical order use statements in group</li>
+      <li>annotate "not pretty" use statement block in file (2 verification methods - simple and advanced)</li>
+      </ul>
     ]]></description>
 
     <change-notes><![CDATA[

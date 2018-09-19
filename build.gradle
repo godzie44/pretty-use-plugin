@@ -34,8 +34,6 @@ intellij {
 publishPlugin {
     username intellijPublishUsername
     password intellijPublishPassword
-
-    channel 'https://plugins.jetbrains.com/plugins/alpha/list'
 }
 
 
