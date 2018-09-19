@@ -31,6 +31,7 @@ public class UseStatementGroupOptionsListForm implements Configurable {
 
     private JPanel panel;
     private JPanel innerPanel;
+    private JTextField hintUseAnother_libsAsTextField;
 
     public UseStatementGroupOptionsListForm() {
         this.tableView = new TableView<>();
