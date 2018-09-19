@@ -31,6 +31,14 @@ intellij {
     }
 }
 
+publishPlugin {
+    username intellijPublishUsername
+    password intellijPublishPassword
+
+    channel 'https://plugins.jetbrains.com/plugins/alpha/list'
+}
+
+
 version '0.1.0'
 
 wrapper {
