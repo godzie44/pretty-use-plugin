@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>php.plugin.pretty</id>
-    <name>Use statement prettify plugin</name>
+    <name>Use statement prettify</name>
     <version>0.1.0</version>
     <vendor email="godzie@yandex.ru">Derevtsov Konstantin</vendor>
 
@@ -13,7 +13,7 @@
       This simple plugin edit use statement block in php file. Features:
       <br />
       <ul>
-      <li>group up use statements by user configuration</li>
+      <li>group up use statements by user configuration ("Languages & Framework > PHP > Pretty use")</li>
       <li>add delimiter between groups</li>
       <li>alphabetical order use statements in group</li>
       <li>annotate "not pretty" use statement block in file (2 verification methods - simple and advanced)</li>
